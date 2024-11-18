@@ -1,0 +1,602 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+    <!-- Vistas Tree -->    <!-- Vistas Tree -->      <!-- Vistas Tree -->     <!-- Vistas Tree -->     <!-- Vistas Tree -->    <!-- Vistas Tree -->
+    <record model="ir.ui.view" id="joc.player_list">
+      <field name="name">joc player list</field>
+      <field name="model">res.partner</field>
+      <field name="arch" type="xml">
+        <tree decoration-info="level>0">
+<!--          <header>-->
+            <button name="boton_new_player" string="Nuevo Jugador" type="object"/>
+<!--          </header>-->
+          <field name="name" string="Nombre"/>
+          <field name="image_1920" string="Foto" widget="image"/>
+          <field name="age" string="Edad"/>
+          <field name="level" string="Nivel"/>
+          <field name="cash" string="Dinero"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="joc.robot_list">
+      <field name="name">joc robot list</field>
+      <field name="model">joc.robot</field>
+      <field name="arch" type="xml">
+        <tree decoration-info="level>0">
+          <field name="name" string="Nombre"/>
+          <field name="photo_mini_robot" string="Foto" widget="image"/>
+          <field name="level" string="Nivel"/>
+          <field name="speed" string="Velocidad"/>
+          <field name="armor" string="Armadura"/>
+          <field name="damage_total" string="Daño Final"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="joc.arma_list">
+      <field name="name">joc arma list</field>
+      <field name="model">joc.arma</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name" string="Nombre"/>
+          <field name="photo_mini_arma" string="Foto" widget="image"/>
+          <field name="damage" string="Daño Base"/>
+          <field name="dps" string="Segundos"/>
+          <field name="cash_arma" string="Precio Arma"/>
+        </tree>
+      </field>
+    </record>
+
+        <record model="ir.ui.view" id="joc.taller_list">
+      <field name="name">joc taller list</field>
+      <field name="model">joc.taller</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name" string="Nombre"/>
+          <field name="photo_mini_arma" string="Foto" widget="image"/>
+          <field name="date" string="Fecha de inicio"/>
+          <field name="finish" string="Fecha de fin"/>
+          <field name="presupuesto" string="Presupuesto de la reparacion"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="joc.batalla_list">
+      <field name="name">joc batalla list</field>
+      <field name="model">joc.batalla</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name" string="Nombre"/>
+          <field name="fecha_batalla" string="Fecha de la Batalla"/>
+          <field name="ganador" string="Ganador de la Batalla"/>
+        </tree>
+      </field>
+    </record>
+
+    <!-- Vistas Form -->       <!-- Vistas Form -->      <!-- Vistas Form -->         <!-- Vistas Form -->      <!-- Vistas Form -->      <!-- Vistas Form -->
+    <record model="ir.ui.view" id="joc.player_partner_form">
+      <field name="name">joc player form inherited</field>
+      <field name="model">res.partner</field>
+      <field name="inherit_id" ref="base.view_partner_form"/>
+      <field name="arch" type="xml">
+        <notebook position="inside">
+          <page string="Player"><group>
+              <field name="description"/>
+              <field name="birth_date"/>
+              <field name="age"/>
+          </group>
+            </page>
+        </notebook>
+      </field>
+    </record>
+
+<!-- ********************      -->
+
+    <record model="ir.ui.view" id="joc.player_form">
+      <field name="name">joc player form</field>
+      <field name="model">res.partner</field>
+      <field name="arch" type="xml">
+        <form decoration-info="level>0">
+          <header>
+            <button name="boton_fecha" string="Fecha" type="object"/>
+            <button name="boton_new_player" string="Nuevo Jugador" type="object" class="btn"/>
+            <button name="%(accion_createrobot)d" type="action" string="Crear Robot" class="btn-primary"/>
+          </header>
+          <sheet>
+            <widget name="web_ribbon" title="Juega" attrs="{'invisible': [('level', '==', '0')]}"/>
+            <H1><field name="name"/></H1>
+            <field name="image_1920" widget="image"/>
+            <group>
+              <group>
+                <separator string="Datos Personales"/>
+                <field name="enrollment_date"/>
+                <field name="birth_date"/>
+                <field name="age"/>
+              </group>
+              <group>
+                <separator string="Datos Juego"/>
+                <field name="is_player"/>
+                <field name="description"/>
+                <field name="level"/>
+                <field name="cash"/>
+              </group>
+              <notebook>
+                <page string="Robots">
+                <field name="robots">
+                  <tree decoration-info="level>0">
+                    <field name="name" string="Nombre"/>
+                    <field name="level" string="Nivel"/>
+                  </tree>
+                </field>
+                </page>
+              </notebook>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="joc.robot_form">
+      <field name="name">joc robot form</field>
+      <field name="model">joc.robot</field>
+      <field name="arch" type="xml">
+        <form>
+          <sheet>
+            <H1><field name="name"/></H1>
+            <field name="photo_robot" widget="image"/>
+            <group>
+              <group>
+                <separator string="Datos Robots"></separator>
+                <field name="level"/>
+                <field name="description"/>
+                <field name="damage_total"/>
+              </group>
+              <group>
+                <separator string="Datos Juego"></separator>
+                <field name="speed"/>
+                <field name="armor"/>
+              </group>
+              <notebook>
+                <page string="Players">
+                <field name="player">
+                  <tree decoration-info="level>0">
+                    <field name="name" string="Nombre"/>
+                    <field name="level" string="Nivel"/>
+                  </tree>
+                </field>
+                </page>
+                <page string="Armas">
+                <field name="armas">
+                  <tree decoration-info="damage>5">
+                    <field name="name" string="Nombre"/>
+                    <field name="damage" string="Daño"/>
+                  </tree>
+                </field>
+                </page>
+              </notebook>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="joc.arma_form">
+      <field name="name">joc arma form</field>
+      <field name="model">joc.arma</field>
+      <field name="arch" type="xml">
+        <form>
+          <sheet>
+            <H1><field name="name"/></H1>
+            <field name="photo_arma" widget="image"/>
+            <group>
+              <group>
+                <separator string="Datos Armas"></separator>
+                <field name="damage"/>
+                <field name="description"/>
+                <field name="cash_arma"/>
+              </group>
+              <group>
+                <separator string="Datos Juego"></separator>
+                <field name="dps"/>
+                <field name="damage_final"/>
+              </group>
+              <notebook>
+                <page string="Robots">
+                <field name="robots">
+                  <tree decoration-info="level>0">
+                    <field name="name" string="Nombre"/>
+                    <field name="level" string="Nivel"/>
+                  </tree>
+                </field>
+                </page>
+              </notebook>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="joc.taller_form">
+      <field name="name">joc taller form</field>
+      <field name="model">joc.taller</field>
+      <field name="arch" type="xml">
+        <form>
+          <sheet>
+            <H1><fieltreed name="name"/></H1>
+            <field name="photo_taller" widget="image"/>
+            <group>
+              <group>
+                <separator string="Datos del taller"></separator>
+                <field name="description"/>
+                <field name="taller"/>
+                <field name="presupuesto"/>
+              </group>
+              <group>
+                <separator string="Datos de reparacion"></separator>
+                <field name="date"/>
+                <field name="finish"/>
+                <field name="hours"/>
+              </group>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="joc.batalla_form">
+      <field name="name">joc batalla form</field>
+      <field name="model">joc.batalla</field>
+      <field name="arch" type="xml">
+        <form>
+          <header>
+            <button name="boton_fecha" string="Fecha" type="object"/>
+            <button name="boton_lucha" string="Lucha" type="object"/>
+          </header>
+          <sheet>
+            <H1><field name="name"/></H1>
+            <separator string="DESCRIPCION"></separator>
+            <field name="description" string="Descripcion"/>
+            <separator string="EL GANADOR"></separator>
+            <field name="ganador"/>
+            <field name="fecha_batalla"/>
+            <group>
+              <group>
+                <separator string="PRIMER EQUIPO"></separator>
+                <field name="attack"/>
+              </group>
+              <group>
+                <separator string="SEGUNDO EQUIPO"></separator>
+                <field name="defend"/>
+              </group>
+            </group>
+            <separator string="TEMPO DE LA BATALLA"></separator>
+            <field name="state"/>
+            <field name="time_remaining"/>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <!-- Vistas search -->     <!-- Vistas search -->     <!-- Vistas search -->    <!-- Vistas search -->    <!-- Vistas search -->    <!-- Vistas search -->
+
+    <record model="ir.ui.view" id="joc.player_search">
+      <field name="name">joc player search</field>
+      <field name="model">res.partner</field>
+      <field name="arch" type="xml">
+        <search>
+          <field name="name" string="Nom"/>
+          <field name="age" string="Edad"/>
+          <field name="age" string="Min Year" filter_domain="[('age', '>=', self)]"/>
+          <field name="level" string="Nivel"/>
+          <field name="level" string="Nivel Superior" filter_domain="[('level', '>', self)]"/>
+          <filter name="player" string="Es jugador" domain="[('is_player', '=',True)]"></filter>
+          <filter name="player_level" string="Player Level 50" domain="[('level', '&gt;=',50)]"></filter>
+          <filter name="player_age" string="Player Age 10" domain="[('age', '&gt;=',9)]"></filter>
+          <filter name="group_by_robot" string="Group by robot" context="{'grup_by': 'robot'}"></filter>
+        </search>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="joc.robot_search">
+      <field name="name">joc robot search</field>
+      <field name="model">joc.robot</field>
+      <field name="arch" type="xml">
+        <search>
+          <field name="name" string="Nom"/>
+          <field name="speed" string="Velocidad"/>
+          <field name="speed" string="Speed Min" filter_domain="[('speed', '>=', self)]"/>
+          <field name="armor" string="Armadura"/>
+          <field name="armor" string="Armor Min" filter_domain="[('armor', '>=', self)]"/>
+          <field name="level" string="Nivel"/>
+          <field name="level" string="Nivel Superior" filter_domain="[('level', '>', self)]"/>
+          <filter name="group_by_player" string="Grup by Player" context="{'group_by':'player'}"/>
+        </search>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="joc.arma_search">
+      <field name="name">joc arma search</field>
+      <field name="model">joc.arma</field>
+      <field name="arch" type="xml">
+        <search>
+          <field name="name" string="Nom"/>
+          <field name="damage" string="Daño"/>
+          <field name="damage" string="Daño Min" filter_domain="[('damage', '>=', self)]"/>
+        </search>
+      </field>
+    </record>
+
+    <!-- Vistas kanban -->        <!-- Vistas kanban -->       <!-- Vistas kanban -->       <!-- Vistas kanban -->       <!-- Vistas kanban -->
+
+    <record model="ir.ui.view" id="joc.player_kanban">
+      <field name="name">joc.player kanban</field>
+      <field name="model">res.partner</field>
+      <field name="priority">17</field>
+      <field name="arch" type="xml">
+        <kanban>
+          <field name="id"></field>
+          <field name="level"></field>
+          <field name="name"></field>
+          <templates>
+            <t t-name="kanban-box">
+              <div t-attf-class=" oe_kanban_color_{{kanban_getcolor(record.level.raw_value)}}
+              oe_kanban_global_click o_kanban_record_has_image_fill">
+                <a type="open">
+                  <img class="oe_kanban_image"
+                       t-att-alt="record.name.value"
+                       t-att-src="kanban_image('res.partner', 'image_1920', record.id.value)" />
+                </a>
+              </div>
+
+              <div t-attf-class="oe-kanban-content">
+                <h2>
+                  <a type="edit">
+                    <field name="name"></field>
+                  </a>
+                </h2>
+                <h5>
+                  <a type="edit">Edad:
+                    <field name="age"></field>
+                  </a>
+                </h5>
+                <h5>
+                  <a type="edit">Nivel:
+                    <field name="level"></field>
+                  </a>
+                </h5>
+                <h5>
+                  <a type="edit">Dinero:
+                    <field name="cash"></field>
+                  </a>
+                </h5>
+                <ul>
+                  <li>Robots: <field name="robots"></field></li>
+                </ul>
+              </div>
+            </t>
+          </templates>
+        </kanban>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="joc.robot_kanban">
+      <field name="name">joc.robot kanban</field>
+      <field name="model">joc.robot</field>
+      <field name="arch" type="xml">
+        <kanban>
+          <field name="id"></field>
+          <field name="level"></field>
+          <field name="name"></field>
+          <templates>
+            <t t-name="kanban-box">
+              <div t-attf-class=" oe_kanban_color_{{kanban_getcolor(record.level.raw_value)}}
+              oe_kanban_global_click o_kanban_record_has_image_fill">
+                <a type="open">
+                  <img class="oe_kanban_image"
+                       t-att-alt="record.name.value"
+                       t-att-src="kanban_image('joc.robot', 'photo_robot', record.id.value)" />
+                </a>
+              </div>
+
+              <div t-attf-class="oe-kanban-content">
+                <h2>
+                  <a type="edit">
+                    <field name="name"></field>
+                  </a>
+                </h2>
+                <h5>
+                  <a type="edit">Nivel:
+                    <field name="level"></field>
+                  </a>
+                </h5>
+                <h5>
+                  <a type="edit">Velocidad:
+                    <field name="speed"></field>
+                  </a>
+                </h5>
+                <h5>
+                  <a type="edit">Armadura:
+                    <field name="armor"></field>
+                  </a>
+                </h5>
+              </div>
+            </t>
+          </templates>
+        </kanban>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="joc.quick_create_arma_form">
+      <field name="name">joc.arma form quickxreate</field>
+      <field name="model">joc.arma</field>
+      <field name="arch" type="xml">
+        <form>
+          <group>
+            <field name="name"></field>
+            <field name="level"></field>
+            <field name="damage"></field>
+          </group>
+        </form>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="joc.arma_kanban">
+      <field name="name">joc.arma kanban</field>
+      <field name="model">joc.arma</field>
+      <field name="arch" type="xml">
+        <kanban default_group_by="damage" on_create="quick_create"
+                quick_create_view="joc.quick_create_arma_form">
+          <field name="id"></field>
+          <field name="level"></field>
+          <field name="name"></field>
+          <templates>
+            <t t-name="kanban-box">
+              <div t-attf-class=" oe_kanban_color_{{kanban_getcolor(record.level.raw_value)}}
+              oe_kanban_global_click o_kanban_record_has_image_fill">
+                <a type="open">
+                  <img class="oe_kanban_image"
+                       t-att-alt="record.name.value"
+                       t-att-src="kanban_image('joc.arma', 'photo_arma', record.id.value)" />
+                </a>
+              </div>
+
+              <div t-attf-class="oe-kanban-content">
+                <h2>
+                  <a type="edit">
+                    <field name="name"></field>
+                  </a>
+                </h2>
+                <h5>
+                  <a type="edit">Nivel:
+                    <field name="level"></field>
+                  </a>
+                </h5>
+                <h5>
+                  <a type="edit">Daño:
+                    <field name="damage"></field>
+                  </a>
+                </h5>
+                <h5>
+                  <a type="edit">Precio:
+                    <field name="cash_arma"></field>
+                  </a>
+                </h5>
+              </div>
+            </t>
+          </templates>
+        </kanban>
+      </field>
+    </record>
+
+     <!-- Vistas calendar -->        <!-- Vistas calendar -->       <!-- Vistas calendar -->       <!-- Vistas calendar -->       <!-- Vistas calendar -->
+
+    <record model="ir.ui.view" id="joc.taller_calendar">
+      <field name="name">joc taller calendar</field>
+      <field name="model">joc.taller</field>
+      <field name="arch" type="xml">
+        <calendar string="Taller Calendar" date_start="date" date_stop="finish" color="taller">
+          <field name="name"/>
+        </calendar>
+      </field>
+    </record>
+
+
+    <!-- actions opening views on models act_window-->    <!-- actions opening views on models act_window-->    <!-- actions opening views on models act_window-->
+
+    <record model="ir.actions.act_window" id="joc.action_player_window">
+      <field name="name">LOS JUGADORES</field>
+      <field name="res_model">res.partner</field>
+      <field name="view_mode">tree,form,kanban</field>
+    </record>
+
+<!---->
+    <record model="ir.actions.act_window.view" id="joc.action_view_player_tree">
+      <field eval="1" name="sequence"/>
+      <field name="view_mode">tree</field>
+      <field name="view_id" ref="joc.player_list"/>
+      <field name="act_window_id" ref="joc.action_player_window"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="joc.action_view_player_form">
+      <field eval="2" name="sequence"/>
+      <field name="view_mode">form</field>
+      <field name="view_id" ref="joc.player_form"/>
+      <field name="act_window_id" ref="joc.action_player_window"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="joc.action_view_player_kanban">
+      <field eval="3" name="sequence"/>
+      <field name="view_mode">kanban</field>
+      <field name="view_id" ref="joc.player_kanban"/>
+      <field name="act_window_id" ref="joc.action_player_window"/>
+    </record>
+
+<!--    -->
+
+    <record model="ir.actions.act_window" id="joc.action_robot_window">
+      <field name="name">LOS ROBOTS</field>
+      <field name="res_model">joc.robot</field>
+      <field name="view_mode">tree,form,kanban</field>
+      <field name="context">{'default_level':0}</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="joc.action_arma_window">
+      <field name="name">LAS ARMAS</field>
+      <field name="res_model">joc.arma</field>
+      <field name="view_mode">tree,form,kanban</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="joc.action_taller_window">
+      <field name="name">EL TALLER</field>
+      <field name="res_model">joc.taller</field>
+      <field name="view_mode">tree,form,calendar</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="joc.action_batalla_window">
+      <field name="name">LA BATALLA</field>
+      <field name="res_model">joc.batalla</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="joc.action_new_player">
+      <field name="name">joc new player window modal</field>
+      <field name="res_model">res.partner</field>
+      <field name="view_mode">form</field>
+      <field name="target">new</field>
+      <field name="context">{'default_level':0, 'default_cash':1000, 'default_age':12}</field>
+      <field name="view_id" eval="ref('joc.player_form')"/>
+    </record>
+
+    <!-- server action to the one above -->       <!-- server action to the one above -->          <!-- server action to the one above -->     <!-- server action to the one above -->
+
+    <record model="ir.actions.server" id="joc.player_server_action">
+      <field name="name">Player server action</field>
+      <field name="model_id" ref="model_res_partner"/>
+      <field name="binding_model_id" ref="model_res_partner"/>
+      <field name="state">code</field>
+      <field name="code">
+        model.contar()
+      </field>
+    </record>
+
+    <!-- Top menu item -->         <!-- Top menu item -->         <!-- Top menu item -->         <!-- Top menu item -->         <!-- Top menu item -->
+    <menuitem name="Joc" id="joc.menu_root"/>
+
+    <!-- menu categories -->      <!-- menu categories -->       <!-- menu categories -->       <!-- menu categories -->       <!-- menu categories -->
+    <menuitem name="Robot Fight" id="joc.menu_1" parent="joc.menu_root"/>
+
+    <!-- actions -->      <!-- actions -->      <!-- actions -->      <!-- actions -->      <!-- actions -->      <!-- actions -->      <!-- actions -->
+    <menuitem name="Players" id="joc.menu_player_list" parent="joc.menu_1"
+              action="joc.action_player_window"/>
+    <menuitem name="Robots" id="joc.menu_robot_list" parent="joc.menu_1"
+            action="joc.action_robot_window"/>
+    <menuitem name="Armas" id="joc.menu_arma_list" parent="joc.menu_1"
+            action="joc.action_arma_window"/>
+    <menuitem name="Taller" id="joc.menu_taller_list" parent="joc.menu_1"
+            action="joc.action_taller_window"/>
+    <menuitem name="Batalla" id="joc.menu_batalla_list" parent="joc.menu_1"
+            action="joc.action_batalla_window"/>
+
+  </data>
+</odoo>

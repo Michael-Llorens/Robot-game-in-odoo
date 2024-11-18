@@ -1,0 +1,31 @@
+<odoo>
+    <data>
+    <!-- explicit list view definition -->
+        <record model="ir.ui.view" id="wizard_robot_form">
+            <field name="name">wizard joc robot form</field>
+            <field name="model">joc.createrobot</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="description"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="crear_robot" type="object" string="Crear" class="oe_highlight"/> or  <button name="cancel" string="Cancel" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        
+        <!-- actions opening views on models -->
+        <record model="ir.actions.act_window" id="accion_createrobot">
+        <field name="name">Wizard crear robot</field>
+        <field name="res_model">joc.createrobot</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="wizard_robot_form"/>
+        <field name="target">new</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_joc_robot,joc.robot,model_joc_robot,base.group_user,1,1,1,1
+access_joc_arma,joc.arma,model_joc_arma,base.group_user,1,1,1,1
+access_joc_taller,joc.taller,model_joc_taller,base.group_user,1,1,1,1
+access_joc_batalla,joc.batalla,model_joc_batalla,base.group_user,1,1,1,1
+access_joc_createrobot,joc.createrobot,model_joc_createrobot,base.group_user,1,1,1,1
