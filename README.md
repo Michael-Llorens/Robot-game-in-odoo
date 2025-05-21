@@ -2,7 +2,7 @@
 
 A strategic robot simulation game developed as a custom module in Odoo. Players control robot actions on a grid-like map, executing commands and logic while interacting with Odoo’s backend models.
 
-![Odoo Robot Game Screenshot](./img/odoo-robots.png) <!-- Replace with actual screenshot -->
+![Odoo Robot Game Screenshot](./img/odoo.png) <!-- Replace with actual screenshot -->
 
 ---
 
